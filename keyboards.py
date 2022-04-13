@@ -9,7 +9,7 @@ curving_arrow = '\U000021A9'
 house = '\U0001F3E0'
 
 
-BACK_TO_TOUR_LIST = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).row(KeyboardButton(curving_arrow + ' Назад к списку стран'))
+BACK_TO_TOUR_LIST = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).row(KeyboardButton(curving_arrow + ' Назад к списку'))
 
 
 def country_buttons(countries):

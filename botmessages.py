@@ -1,4 +1,15 @@
 
+START_MESSAGE = '''
+Привет!
+Это чат-бот для поиска \U0001F525 горящих туров с Алматы.
+
+Ниже можешь выбрать страну, и найти подходящие для тебя туры. 
+'''
+
+CHOOSE_COUNTRY_MESSAGE = '''
+Ниже можешь выбрать страну, и найти подходящие для тебя туры. 
+'''
+
 def tour_list(data):
     page, all_pages, tours = data['page'], data['all_pages'], data['data']
 
@@ -42,3 +53,4 @@ def tour_detail(tour):
         msg_txt += 'Турагент:  ' + tour['travel_agency'] + '\n'
   
     return msg_txt
+
