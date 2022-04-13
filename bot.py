@@ -59,10 +59,11 @@ async def other_message_handler(message: types.Message):
             return
 
         await bot.send_message(message.from_user.id, 
-                            botmessages.tour_messages(res.json()), 
+                            botmessages.tour_list(res.json()), 
                             parse_mode=ParseMode.HTML, 
                             reply_markup=kb.next_prev_buttons(res.json()['page'], res.json()['all_pages']))
 
+    # PREVIOUS PAGE
     elif message.text == kb.left_arrow + ' Предыдущая':
         res = requests.get(f'{config.HOME_LINK}api/tg/prev_next/prev?user={message.from_user.id}')
         
@@ -70,20 +71,41 @@ async def other_message_handler(message: types.Message):
             await bot.send_message(message.from_user.id, 'Ничего не найдено')
             return
         await bot.send_message(message.from_user.id, 
-                            botmessages.tour_messages(res.json()), 
+                            botmessages.tour_list(res.json()), 
                             parse_mode=ParseMode.HTML, 
                             reply_markup=kb.next_prev_buttons(res.json()['page'], res.json()['all_pages']))
         
 
+    # NEXT PAGE
     elif message.text == kb.right_arrow + ' Следующая':
         res = requests.get(f'{config.HOME_LINK}api/tg/prev_next/next?user={message.from_user.id}')
+
         if res.status_code == 404:
             await bot.send_message(message.from_user.id, 'Ничего не найдено')
             return
+
         await bot.send_message(message.from_user.id, 
-                            botmessages.tour_messages(res.json()), 
+                            botmessages.tour_list(res.json()), 
                             parse_mode=ParseMode.HTML, 
                             reply_markup=kb.next_prev_buttons(res.json()['page'], res.json()['all_pages']))
 
+
+    # COMMAND
+    if message.text[0:5] == '/tour':
+        tour_id = message.text.split('_')[1]
+
+        res = requests.get(f'{config.HOME_LINK}api/tour/{tour_id}/')
+
+        
+
+        await bot.send_message(message.from_user.id, 
+                            botmessages.tour_detail(res.json()), 
+                            parse_mode=ParseMode.HTML,
+                            reply_markup=kb.BACK_TO_TOUR_LIST)
+
+        
+
+        print(res.json())
+        
 if __name__ == '__main__':
     executor.start_polling(dp)
